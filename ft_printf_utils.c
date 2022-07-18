@@ -33,7 +33,7 @@ int	ft_put_unsigned_int(unsigned int n)
 	return (ret);
 }
 
-int	put_x_lowercase(unsigned long long n)
+int	put_x_lowercase(unsigned int n)
 {
 	int		ret;
 	char	*hex;
