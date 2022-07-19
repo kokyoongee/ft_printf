@@ -1,28 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eekokyoong <eekokyoong@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/19 12:40:43 by eekokyoong        #+#    #+#             */
+/*   Updated: 2022/07/19 12:40:44 by eekokyoong       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int	ft_putchar(int c)
-{
-	write(1, &c, 1);
-	return (1);
-}
-
-int	ft_putstr(char *s)
-{
-	int	ret;
-
-	ret = 0;
-	if (!s)
-	{
-		ret += ft_putstr("(null)");
-		return (ret);
-	}
-	ft_putchar(*s);
-	while (*s++)
-		ret += ft_putchar(*s);
-	return (ret);
-}
-
-static void parse_and_print(va_list args, const char *format, int *ret)
+static void	parse_and_print(va_list args, const char *format, int *ret)
 {
 	while (*format)
 	{
@@ -32,7 +22,7 @@ static void parse_and_print(va_list args, const char *format, int *ret)
 				*ret += ft_putchar(va_arg(args, int));
 			else if (format[1] == 's')
 				*ret += ft_putstr(va_arg(args, char *));
-			else if (format[1] == 'd')
+			else if (format[1] == 'd' || format[1] == 'i')
 				*ret += ft_put_int(va_arg(args, int));
 			else if (format[1] == 'u')
 				*ret += ft_put_unsigned_int(va_arg(args, unsigned int));
@@ -51,12 +41,12 @@ static void parse_and_print(va_list args, const char *format, int *ret)
 	}
 }
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-	int i;
+	int		i;
+	va_list	args;
 
 	i = 0;
-	va_list args;
 	va_start(args, format);
 	parse_and_print(args, format, &i);
 	va_end(args);
